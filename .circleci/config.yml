@@ -1,0 +1,9 @@
+version: 2
+  jobs:
+    build:
+      docker:
+          - image: circleci/ruby:2.3.7
+      steps:
+        - checkout
+        - run: echo "Running unit tests"
+        - run: echo "Running UI tests"
