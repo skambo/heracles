@@ -1,4 +1,7 @@
-**Heracles**
+**Heracles** 
+[![CircleCI](https://circleci.com/gh/skambo/heracles/tree/master.svg?style=svg)](https://circleci.com/gh/skambo/heracles/tree/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/52b71c66875df2dbfd4e/maintainability)](https://codeclimate.com/github/skambo/heracles/maintainability)
+
 
 Heracles is a web app that converts money into a string format. A user keys in the amount of money  and Heracles formats the amount and displays it back to the user.
  
