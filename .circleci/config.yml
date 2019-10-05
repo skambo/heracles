@@ -2,12 +2,10 @@
 version: 2
 jobs:
   unit_test:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        working_directory: ~/repo
     steps:
-      - build:
-          docker:
-            - image: circleci/ruby:2.6.3-node-browsers
-          working_directory: ~/repo
-
       - checkout
 
       # Download and cache dependencies
@@ -33,11 +31,10 @@ jobs:
           command: bundle exec rake unit
 
   integration_test:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        working_directory: ~/repo
     steps:
-      - build:
-          docker:
-            - image: circleci/ruby:2.6.3-node-browsers
-          working_directory: ~/repo
 
       - checkout
 
