@@ -31,7 +31,7 @@ jobs:
       # run unit tests!
       - run:
           name: run unit tests
-          command: rake test
+          command: bundle exec rake test
 
       # run UI tests!
       - run:
