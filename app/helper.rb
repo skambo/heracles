@@ -4,6 +4,6 @@ class Helper
       raise ArgumentError
     end
     amount = amount.round(2)
-    amount = amount.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/, "\\1 ")
+    amount.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/, "\\1 ")
   end
 end
