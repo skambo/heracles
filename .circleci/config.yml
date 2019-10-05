@@ -28,12 +28,12 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # run tests!
+      # run unit tests!
       - run:
-          name: run tests
-          command: echo "Running unit tests"
+          name: run unit tests
+          command: rake test
 
-      # run tests!
+      # run UI tests!
       - run:
             name: run tests
             command: echo "Running UI tests"
