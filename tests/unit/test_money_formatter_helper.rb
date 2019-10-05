@@ -17,7 +17,7 @@ class HelperTest < Minitest::Test
     property_of{
       Rantly { range(1,999.00) { float } }
     }.check { |s|
-      assert_equal (s.round(2)).to_s, Helper.format_money(s)
+      assert_equal  (s.round(2)).to_s, Helper.format_money(s)
     }
   end
   def test_strings_are_not_accepted                                             #using property based testing to test string inputs are not formatted
@@ -27,30 +27,11 @@ class HelperTest < Minitest::Test
       assert_raises(ArgumentError){Helper.format_money(s)}
     }
   end
-  def test_money_formatter
-    skip
-    assert_equal "89 000", Helper.format_money(89000)
-  end
-
-  def test_money_formatter_spaces
-    skip
-    assert_equal "89000", Helper.format_money(89000)
-  end
-  def test_negatives_not_allowed
-    skip
-    assert_equal " Negative number not allowed" , Helper.format_money("- 89 000")
-  end
-  def test_strings_not_allowed
-    skip
-  assert_equal " Enter a figure" , Helper.format_money("twenty")
-  end
-  def test_more_than_five_decimals
-    skip
-  assert_equal "89.12" , Helper.format_money(89.123456)
-  end
-  def test_special_chars_not_allowed
-    skip
-    assert_equal "890 000" , Helper.format_money("KSH 890000")
+  def test_money_formatter_formats_amount_and_rounds_off_to_two_decimal_places
+     test_cases = {10000 => "10 000", 1000000 => "1 000 000", 1600 => "1 600", 1000.12345 => "1 000.12" }
+     test_cases.each do |key,value|
+       assert_equal value, Helper.format_money(key)
+     end
   end
 end
 
