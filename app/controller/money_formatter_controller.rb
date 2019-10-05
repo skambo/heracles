@@ -1,5 +1,6 @@
 require_relative '../../app/helper'
 require 'rack-flash'
+require 'sinatra'
 
 class MoneyFormatterController < Sinatra::Base
     use Rack::Flash
@@ -15,16 +16,12 @@ class MoneyFormatterController < Sinatra::Base
 
     post "/format" do                       #post method receives input from the user, and does the validation and returns the formatted amount back to the user
         amount = params[:amount]
-        if amount.empty? || ! is_number?(amount)
+        if amount.empty? || ! Helper.is_number?(amount)
             flash[:message] = "Please enter valid input"
             erb :formatted
         else
             @formatted_amount = Helper.format_money(amount.to_f)
             erb :formatted
         end
-    end
-    private
-    def is_number?(string)
-        true if Float(string) rescue false
     end
 end

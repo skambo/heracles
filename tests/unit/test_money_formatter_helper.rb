@@ -1,5 +1,6 @@
 require_relative '../../tests/test_helper'
 require 'rantly/minitest_extensions' # for 'minitest'
+require File.expand_path '../../../app/helper.rb', __FILE__
 
 class HelperTest < Minitest::Test
 
