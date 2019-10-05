@@ -2,75 +2,71 @@
 version: 2
 jobs:
   unit_test:
-    build:
-      docker:
+    steps:
+      - build:
+          docker:
+            - image: circleci/ruby:2.6.3-node-browsers
+          working_directory: ~/repo
 
-        - image: circleci/ruby:2.6.3-node-browsers
+      - checkout
 
-      working_directory: ~/repo
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-      steps:
-        - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-        # Download and cache dependencies
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "Gemfile.lock" }}
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-        - run:
-            name: install dependencies
-            command: |
-              bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-        - save_cache:
-            paths:
-              - ./vendor/bundle
-            key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-        # run unit tests!
-        - run:
-            name: run unit tests
-            command: bundle exec rake unit
+      # run unit tests!
+      - run:
+          name: run unit tests
+          command: bundle exec rake unit
 
   integration_test:
-    build:
-      docker:
+    steps:
+      - build:
+          docker:
+            - image: circleci/ruby:2.6.3-node-browsers
+          working_directory: ~/repo
 
-        - image: circleci/ruby:2.6.3-node-browsers
+      - checkout
 
-      working_directory: ~/repo
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-      steps:
-        - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-        # Download and cache dependencies
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "Gemfile.lock" }}
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }
 
-        - run:
-            name: install dependencies
-            command: |
-              bundle install --jobs=4 --retry=3 --path vendor/bundle
+      # run integration tests!
+      - run:
+          name: run unit tests
+          command: bundle exec rake integration
 
-        - save_cache:
-            paths:
-              - ./vendor/bundle
-            key: v1-dependencies-{{ checksum "Gemfile.lock" }
-
-        # run integration tests!
-        - run:
-            name: run unit tests
-            command: bundle exec rake integration
-
-        # run UI tests!
-        - run:
-            name: run tests
-            command: echo "Running UI tests"
+      # run UI tests!
+      - run:
+          name: run tests
+          command: echo "Running UI tests"
 
 workflows:
   version: 2
