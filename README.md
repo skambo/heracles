@@ -7,7 +7,7 @@ Heracles is a web app that converts money into a string format. A user keys in t
  
 **Tech / framework** 
 - Programming language : Ruby 
-- Framework : Sinatra 
+- Framework : [Sinatra](http://sinatrarb.com/) 
 - Continous Integration : CircleCI
 - UI test : Selenium Webdriver
 - Property based tests : Rantly
