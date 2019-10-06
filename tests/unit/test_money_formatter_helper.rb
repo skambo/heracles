@@ -1,40 +1,65 @@
+# frozen_string_literal: true
+
 require_relative '../../tests/test_helper'
-require 'rantly/minitest_extensions' # for 'minitest'
-require File.expand_path '../../../app/helper.rb', __FILE__
+require 'rantly/minitest_extensions'
+require File.expand_path '../../app/helper.rb', __dir__
 
 class HelperTest < Minitest::Test
-
   include Rack::Test::Methods
 
+  def test_precision_is_applied
+    assert_equal '200.4567', Helper.format_money(200.45668, precision = 4)
+  end
 
-  def test_all_numbers_less_than_1000_are_not_formatted                           #using property based testing to test numbers less than 1000
-    property_of{
-      Rantly { range(1,999) { integer } }
-    }.check { |s|
-      assert_equal s.to_s, Helper.format_money(s)
-    }
+  def test_precision_must_be_a_number
+    assert_raises(TypeError) { Helper.format_money(200.45668, precision = '4') }
   end
-  def test_float_numbers_less_than_1000_are_rounded_off_and_not_formatted        #using property based testing to test numbers less than 1000 with decimal places
-    property_of{
-      Rantly { range(1,999.00) { float } }
-    }.check { |s|
-      assert_equal  (s.round(2)).to_s, Helper.format_money(s)
-    }
+
+  def test_delimiter_is_applied
+    assert_equal '2,000.00', Helper.format_money(2000.00, precision = 2, delimiter = ',')
   end
-  def test_strings_are_not_accepted                                             #using property based testing to test string inputs are not formatted
-    property_of{
+
+  def test_all_numbers_less_than_1000_are_not_delimited # using property based testing to test numbers less than 1000
+    property_of do
+      Rantly { range(1, 999) { integer } }
+    end.check do |input|
+      assert_equal '%.2f' % input, Helper.format_money(input)
+    end
+  end
+
+  def test_all_numbers_greater_than_1000_are_delimited                         # using property based testing to test numbers less than 1000
+    property_of do
+      Rantly { range(1000, 9999) { integer } }
+    end.check do |input|
+      expected_string = '%.2f' % input
+      expected_string = expected_string.gsub(/(\d)(?=(\d{3})+(?!\d))/, '\\1 ')
+      assert_equal expected_string, Helper.format_money(input)
+    end
+  end
+
+  def test_float_numbers_less_than_1000_are_rounded_off_and_not_delimited      # using property based testing to test numbers less than 1000 with decimal places
+    property_of do
+      Rantly { range(1, 999.00) { float } }
+    end.check do |input|
+      assert_equal '%.2f' % input, Helper.format_money(input)
+    end
+  end
+
+  def test_float_numbers_greater_than_1000_are_delimited # using property based testing to test numbers less than 1000 with decimal places
+    property_of do
+      Rantly { range(1000.00, 9999.00) { float } }
+    end.check do |input|
+      expected_string = '%.2f' % input
+      expected_string = expected_string.gsub(/(\d)(?=(\d{3})+(?!\d))/, '\\1 ')
+      assert_equal expected_string, Helper.format_money(input)
+    end
+  end
+
+  def test_strings_are_not_accepted # using property based testing to test string inputs are not formatted
+    property_of do
       Rantly { sized(30) { string } }
-    }.check { |s|
-      assert_raises(ArgumentError){Helper.format_money(s)}
-    }
-  end
-  def test_money_formatter_formats_amount_and_rounds_off_to_two_decimal_places
-     test_cases = {10000 => "10 000", 1000000 => "1 000 000", 1600 => "1 600", 1000.12345 => "1 000.12" }
-     test_cases.each do |key,value|
-       assert_equal value, Helper.format_money(key)
-     end
+    end.check do |input|
+      assert_raises(TypeError) { Helper.format_money(input) }
+    end
   end
 end
-
-
-

@@ -1,0 +1,13 @@
+AllCops:
+  Exclude:
+    - 'tests/*.rb'
+  Enabled: true
+
+
+Metrics/LineLength:
+  # This will disable the rule completely, regardless what other options you put
+  Enabled: true
+  # Change the default 80 chars limit value
+  Max: 100
+  # If you want the rule not to apply to a specific folder/file
+

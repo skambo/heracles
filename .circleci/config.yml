@@ -1,6 +1,36 @@
 
 version: 2
 jobs:
+  lint_test:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        working_directory: ~/repo
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # run linting!
+      - run:
+          name: run linting
+          command: ./bin/lint.sh
+
+
   unit_test:
     docker:
       - image: circleci/ruby:2.6.3-node-browsers
@@ -28,7 +58,7 @@ jobs:
       # run unit tests!
       - run:
           name: run unit tests
-          command: bundle exec rake unit
+          command: ./bin/unit_test.sh
 
   integration_test:
     docker:
@@ -57,20 +87,49 @@ jobs:
 
       # run integration tests!
       - run:
-          name: run unit tests
-          command: bundle exec rake integration
+          name: run integration tests
+          command: ./bin/integration_test.sh
+
+
+  ui_test:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        working_directory: ~/repo
+    steps:
+
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }
 
       # run UI tests!
       - run:
-          name: run tests
-          command: echo "Running UI tests"
+          name: run ui tests
+          command: ./bin/ui_test.sh
 
 workflows:
   version: 2
   commit:
     jobs:
+      - lint_test
       - unit_test
       - integration_test
+      - ui_test
+
 
 
 
