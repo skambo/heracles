@@ -83,7 +83,7 @@ jobs:
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # run integration tests!
       - run:
@@ -114,7 +114,7 @@ jobs:
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # run UI tests!
       - run:
