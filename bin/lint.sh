@@ -3,4 +3,4 @@
 set -e # fail fast
 set -x # print commands
 
-rubocop
+bundle exec rubocop
