@@ -125,9 +125,11 @@ workflows:
   version: 2
   commit:
     jobs:
+      - lint_test
       - unit_test
       - integration_test
       - ui_test
+
 
 
 
