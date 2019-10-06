@@ -10,8 +10,6 @@ describe 'testing the form end to end' do
 
     driver.find_element(id: 'money').send_keys(2000)
     driver.find_element(id: 'submit').click
-    #wait = Selenium::WebDriver::wait.new(timeout:10)
-    #wait.until {driver.find_element(i)}
     expect(driver.find_element(id: 'format').text).to eql("Formatted Amount: 2 000.00")
     driver.quit
    end
