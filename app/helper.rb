@@ -2,11 +2,16 @@ class Helper
 
   def self.format_money(amount, precision = 2, delimiter = " ")
     unless is_number?(amount)
-      raise ArgumentError
+      raise TypeError
     end
-    amount = amount.round(precision)                          #applying precision which rounds off
-    amount_string = "%.#{precision}f" % amount
-    amount_string.gsub(/(\d)(?=(\d\d\d)+(?!\d)).$/, "\\1#{delimiter}")
+
+    unless is_number?(precision)
+      raise TypeError
+    end
+
+    rounded_amount = "%.#{precision}f" % amount.round(precision)
+    amount_string = rounded_amount.split('.')
+    amount_string[0].gsub(/(\d)(?=(\d{3})+(?!\d))/, "\\1#{delimiter}") + "." + amount_string[1]
   end
 
   def self.is_number?(string)
