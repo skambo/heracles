@@ -3,4 +3,4 @@
 set -e # fail fast
 set -x # print commands
 
-rspec tests/ui/*.rb
+bundle exec rspec tests/ui/*.rb
