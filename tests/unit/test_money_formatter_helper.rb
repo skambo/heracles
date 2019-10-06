@@ -27,11 +27,31 @@ class HelperTest < Minitest::Test
     }
   end
 
+  def test_all_numbers_greater_than_1000_are_delimited                         #using property based testing to test numbers less than 1000
+    property_of{
+      Rantly { range(1000,9999) { integer } }
+    }.check { |input|
+      expected_string = "%.2f" % input
+      expected_string = expected_string.gsub(/(\d)(?=(\d{3})+(?!\d))/, "\\1 ")
+      assert_equal expected_string, Helper.format_money(input)
+    }
+  end
+
   def test_float_numbers_less_than_1000_are_rounded_off_and_not_delimited      #using property based testing to test numbers less than 1000 with decimal places
     property_of{
       Rantly { range(1,999.00) { float } }
     }.check { |input|
       assert_equal "%.2f" % input, Helper.format_money(input)
+    }
+  end
+
+  def test_float_numbers_greater_than_1000_are_delimited      #using property based testing to test numbers less than 1000 with decimal places
+    property_of{
+      Rantly { range(1000.00,9999.00) { float } }
+    }.check { |input|
+      expected_string = "%.2f" % input
+      expected_string = expected_string.gsub(/(\d)(?=(\d{3})+(?!\d))/, "\\1 ")
+      assert_equal expected_string, Helper.format_money(input)
     }
   end
 
