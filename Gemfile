@@ -12,6 +12,6 @@ gem 'shotgun'              # it runs the server
 gem 'sinatra'              # simple web framework for Ruby
 gem 'chromedriver-helper', '~> 2.1', '>= 2.1.1'
 gem 'rubocop'
-gem 'selenium-webdriver'
+gem 'selenium-webdriver', '~> 3.142', '>= 3.142.6'
 gem 'webdrivers'
 gem 'rspec'
