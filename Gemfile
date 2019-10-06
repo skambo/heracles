@@ -8,3 +8,7 @@ gem 'rantly'               # Rantly to generate random test data, and use its Te
 gem 'minitest'             # Test framework
 gem 'rack-test'            # Rack test allows us to run tests
 gem 'rack-flash3'          #displays flash messages on the UI
+#gem 'chromedriver-helper', '~> 2.1', '>= 2.1.1'
+gem 'selenium-webdriver', '~> 3.142', '>= 3.142.6'
+gem 'webdrivers'
+gem 'rubocop'

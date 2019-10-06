@@ -1,6 +1,36 @@
 
 version: 2
 jobs:
+  lint_test:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        working_directory: ~/repo
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # run linting!
+      - run:
+          name: run linting
+          command: rubocop
+
+
   unit_test:
     docker:
       - image: circleci/ruby:2.6.3-node-browsers
@@ -60,10 +90,36 @@ jobs:
           name: run unit tests
           command: bundle exec rake integration
 
+
+  ui_test:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        working_directory: ~/repo
+    steps:
+
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }
+
       # run UI tests!
       - run:
-          name: run tests
-          command: echo "Running UI tests"
+          name: run ui tests
+          command: bundle exec rake ui
 
 workflows:
   version: 2
@@ -71,6 +127,7 @@ workflows:
     jobs:
       - unit_test
       - integration_test
+      - ui_test
 
 
 
