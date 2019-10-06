@@ -1,5 +1,5 @@
 require_relative '../../tests/test_helper'
-require 'rantly/minitest_extensions' # for 'minitest'
+require 'rantly/minitest_extensions'
 require File.expand_path '../../../app/helper.rb', __FILE__
 
 class HelperTest < Minitest::Test
@@ -14,6 +14,15 @@ class HelperTest < Minitest::Test
       assert_equal s.to_s, Helper.format_money(s)
     }
   end
+
+  def test_precision_is_applied
+    assert_equal "200.4567", Helper.format_money(200.45668, precision = 4)
+  end
+
+  def test_delimiter_is_applied
+    assert_equal "2,000.00", Helper.format_money("2 000.00", delimiter = ",")
+  end
+
   def test_float_numbers_less_than_1000_are_rounded_off_and_not_formatted        #using property based testing to test numbers less than 1000 with decimal places
     property_of{
       Rantly { range(1,999.00) { float } }
@@ -21,6 +30,7 @@ class HelperTest < Minitest::Test
       assert_equal  (s.round(2)).to_s, Helper.format_money(s)
     }
   end
+
   def test_strings_are_not_accepted                                             #using property based testing to test string inputs are not formatted
     property_of{
       Rantly { sized(30) { string } }
@@ -28,6 +38,7 @@ class HelperTest < Minitest::Test
       assert_raises(ArgumentError){Helper.format_money(s)}
     }
   end
+
   def test_money_formatter_formats_amount_and_rounds_off_to_two_decimal_places
      test_cases = {10000 => "10 000", 1000000 => "1 000 000", 1600 => "1 600", 1000.12345 => "1 000.12" }
      test_cases.each do |key,value|
