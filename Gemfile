@@ -10,7 +10,8 @@ gem 'rantly'               # Rantly to generate random test data, and use its Te
 gem 'require_all'          # a gem that loads all the dependencies
 gem 'shotgun'              # it runs the server
 gem 'sinatra'              # simple web framework for Ruby
-# gem 'chromedriver-helper', '~> 2.1', '>= 2.1.1'
+gem 'chromedriver-helper', '~> 2.1', '>= 2.1.1'
 gem 'rubocop'
 gem 'selenium-webdriver', '~> 3.142', '>= 3.142.6'
 gem 'webdrivers'
+gem 'rspec'

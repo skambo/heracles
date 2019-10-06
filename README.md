@@ -7,7 +7,7 @@ Heracles is a web app that converts money into a string format. A user keys in t
  
 **Tech / framework** 
 - Programming language : Ruby 
-- Framework : Sinatra 
+- Framework : [Sinatra](http://sinatrarb.com/) 
 - Continous Integration : CircleCI
 - Static analysis tool : Code Climate 
 - Linting : [Rubocop](https://rubocop.readthedocs.io/en/stable/)
@@ -106,7 +106,8 @@ Finished in 0.009443s, 423.5942 runs/s, 32193.1583 assertions/s.
   The remaining integration tests check the flow that the controller does not accept empty money input from a user or string input, 
   if any such invalid input is fed, a flash error message is displayed to the user.
  -`Rubocop` is installed to run linting checks on Heracles. It has also been configured to run the checks on the CI pipeline
- - UI test using Selenium Webdriver
+ - UI test using Selenium Webdriver and RSpec. There is one UI test that verifies that the amount inputted is formatted and
+ the formatted amount is correct. To run the test, type `rspec tests/ui/form_test.rb` 
 
 **CI pipeline setup**
 - The CircleCI pipeline configuration can be found at `/heracles/.circleci/config.yml`. 
@@ -127,8 +128,10 @@ Finished in 0.009443s, 423.5942 runs/s, 32193.1583 assertions/s.
     - The tests can be extended for better optimization. For example, if there was a use case, we can make use of test doubles 
     (mocks, stubs, spies, fakes, dummies) in place of real objects that the code under unit test will depend on.
     - Integration tests on the other hand test a group of components hence there’s no avoiding use of real objects (dependencies). 
-    For example, we can take advantage of Dockerization to optimize for speed and efficiency. 
-    - The UI tests set can be set up to run daily to ensure master is always clean and make use of Page Object Model to enhance test optimization.
+    So for example, we can take advantage of Dockerization to optimize for speed and efficiency. 
+    - The UI tests can be set up to run daily to ensure what's merged into master is always clean. If Heracles is to to be
+    extended in future with many more pages, we would use Page Object Model to separate HTML tag selector code from the actual test code. 
+    This makes the tests simpler, more readable and allows reuse of tag selectors.
     - Contract tests can also be added. A Swagger file documenting `/api/v1/formatAmount` has been added and can be found in 
     `/heracles/definitions/format_amount_1.0.yml`. If Heracles was to be extended in future, contract tests would protect against
     regression. 
