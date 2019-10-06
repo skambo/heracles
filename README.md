@@ -118,7 +118,7 @@ Finished in 0.009443s, 423.5942 runs/s, 32193.1583 assertions/s.
 **Running the tests**
  - Run unit tests by running the command `rake unit` 
  - Run integration tests by running the command `rake intgration` 
- - Run UI tests by running the command `rake ui`
+ - Run UI tests by running the command `rspec tests/ui/form_test.rb`
  - Run linting tests with the command `rubocop`
 
 **Further improvements**
