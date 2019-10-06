@@ -28,7 +28,7 @@ jobs:
       # run linting!
       - run:
           name: run linting
-          command: rubocop
+          command: ./bin/lint.sh
 
 
   unit_test:
@@ -58,7 +58,7 @@ jobs:
       # run unit tests!
       - run:
           name: run unit tests
-          command: bundle exec rake unit
+          command: ./bin/unit_test.sh
 
   integration_test:
     docker:
@@ -87,8 +87,8 @@ jobs:
 
       # run integration tests!
       - run:
-          name: run unit tests
-          command: bundle exec rake integration
+          name: run integration tests
+          command: ./bin/integration_test.sh
 
 
   ui_test:
@@ -119,15 +119,17 @@ jobs:
       # run UI tests!
       - run:
           name: run ui tests
-          command: bundle exec rake ui
+          command: ./bin/ui_test.sh
 
 workflows:
   version: 2
   commit:
     jobs:
+      - lint_test
       - unit_test
       - integration_test
       - ui_test
+
 
 
 
