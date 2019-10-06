@@ -7,7 +7,7 @@ describe 'testing the form end to end' do
   it 'submits an amount' do
     driver = Selenium::WebDriver.for :chrome
     driver.navigate.to 'http://127.0.0.1:9393'
-    wait = Selenium::WebDriver::Wait.new(timeout:20)
+    wait = Selenium::WebDriver::Wait.new(timeout:30)
     wait.until {driver.find_element(id: 'money').displayed? }
 
     driver.find_element(id: 'money').send_keys(2000)
