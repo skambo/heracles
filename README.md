@@ -22,8 +22,7 @@ Heracles is a web app that converts money into a string format. A user keys in t
  - Set up integration for CircleCI and CodeClimate
  - Structured the code base as shown below
     
-    ```bash
-  .
+  ```bash
   |-- Gemfile
   |-- Gemfile.lock
   |-- README.md
@@ -54,7 +53,7 @@ Heracles is a web app that converts money into a string format. A user keys in t
       |   `-- page-objects
       `-- unit
           `-- test_money_formatter_helper.rb
-    ```
+  ```
    1. The app directory contains the controller that receives input from the UI and formats the input using a helper 
       method defined in the helper file. 
       The app directory also includes the views rendered as HTML pages to the user 
