@@ -9,7 +9,7 @@ class MoneyFormatterControllerTest < MiniTest::Unit::TestCase
     MoneyFormatterController
   end
 
-# we post to the controller, which invokes our helper and the helper formats the money
+  # we post to the controller, which invokes our helper and the helper formats the money
   def test_integration_between_helper_and_controller
     post '/api/v1/formatAmount', params = { amount: '10000' }
     assert last_response.ok?
@@ -26,5 +26,5 @@ class MoneyFormatterControllerTest < MiniTest::Unit::TestCase
     post '/api/v1/formatAmount', params = { amount: 'twenty thousand' }
     assert last_response.ok?
     assert last_response.body.include?('Please enter valid input')
-end
+  end
 end

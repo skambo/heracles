@@ -2,7 +2,7 @@
 
 <p> Heracles is a web app that converts money into a string format. Key in an amount of money and Heracles will format the amount and display it back to you.</p>
 <% if flash.has?(:message) %> 
-  <p style="color:#f0ad4e;"><%= flash[:message] %> </p> 
+  <p id="error_banner" style="color:#f0ad4e;"><%= flash[:message] %> </p> 
 <% end %> 
 
 <form action="/api/v1/formatAmount" method="post">

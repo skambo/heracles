@@ -19,7 +19,8 @@ class HelperTest < Minitest::Test
     assert_equal '2,000.00', Helper.format_money(2000.00, precision = 2, delimiter = ',')
   end
 
-  def test_all_numbers_less_than_1000_are_not_delimited # using property based testing to test numbers less than 1000
+  # using property based testing to test numbers less than 1000
+  def test_all_numbers_less_than_1000_are_not_delimited
     property_of do
       Rantly { range(1, 999) { integer } }
     end.check do |input|
@@ -27,7 +28,8 @@ class HelperTest < Minitest::Test
     end
   end
 
-  def test_all_numbers_greater_than_1000_are_delimited                         # using property based testing to test numbers less than 1000
+  # using property based testing to test numbers less than 1000
+  def test_all_numbers_greater_than_1000_are_delimited
     property_of do
       Rantly { range(1000, 9999) { integer } }
     end.check do |input|
@@ -37,7 +39,9 @@ class HelperTest < Minitest::Test
     end
   end
 
-  def test_float_numbers_less_than_1000_are_rounded_off_and_not_delimited      # using property based testing to test numbers less than 1000 with decimal places
+  # using property based testing to test numbers less than 1000 with decimal places
+  #
+  def test_float_numbers_less_than_1000_are_rounded_off_and_not_delimited
     property_of do
       Rantly { range(1, 999.00) { float } }
     end.check do |input|
@@ -45,7 +49,8 @@ class HelperTest < Minitest::Test
     end
   end
 
-  def test_float_numbers_greater_than_1000_are_delimited # using property based testing to test numbers less than 1000 with decimal places
+  # using property based testing to test numbers less than 1000 with decimal places
+  def test_float_numbers_greater_than_1000_are_delimited
     property_of do
       Rantly { range(1000.00, 9999.00) { float } }
     end.check do |input|
@@ -55,7 +60,8 @@ class HelperTest < Minitest::Test
     end
   end
 
-  def test_strings_are_not_accepted # using property based testing to test string inputs are not formatted
+  # using property based testing to test string inputs are not formatted
+  def test_strings_are_not_accepted
     property_of do
       Rantly { sized(30) { string } }
     end.check do |input|

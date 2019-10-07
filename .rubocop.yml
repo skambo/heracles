@@ -1,13 +1,40 @@
 AllCops:
   Exclude:
     - 'tests/*.rb'
+    - 'vendor/bundle/**/*'
   Enabled: true
+
 
 
 Metrics/LineLength:
   # This will disable the rule completely, regardless what other options you put
   Enabled: true
   # Change the default 80 chars limit value
-  Max: 100
+  Max: 150
   # If you want the rule not to apply to a specific folder/file
+  BlockLength:
+    Max: 100
 
+Style/FormatString:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/Documentation:
+  Enabled : false
+
+Style/IdenticalConditionalBranches:
+  Enabled: false
+
+Style/IdenticalConditionalBranches:
+  Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
