@@ -1,4 +1,6 @@
-#The helper class receives an amount, and converts it using defaults to cater for spaces and
+# frozen_string_literal: true
+
+# The helper class receives an amount, and converts it using defaults to cater for spaces and
 # rounding off. We use the gsub method with a regex to format the input given. The helper also checks if amount given is a number
 
 class Helper

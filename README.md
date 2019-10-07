@@ -55,23 +55,22 @@ Heracles is a web app that converts money into a string format. A user keys in t
           `-- test_money_formatter_helper.rb
   ```
    1. The app directory contains the controller that receives input from the UI and formats the input using a helper 
-      method defined in the helper file. 
-      The app directory also includes the views rendered as HTML pages to the user 
+      method defined in the helper file. The app directory also includes the views rendered as HTML pages to the user 
    2. There are three test folders, for unit, integration and ui tests. 
-       - The unit test folder holds functionality tests for money formatting method defined in our helper. 
-       Rantly is used to generate inputs and aid in property based testing, and Minitest as the unit test framework.
+       - The unit test folder holds functionality tests for the money formatting method defined in our helper. 
+       Rantly is used to generate inputs and aid in property based testing. Minitest is the unit test framework in use.
        - The integration test folder holds component tests that test that whenever the controller URL is called, it receives the input, 
        validates and invokes the formatting functionality to run the conversion and return a formatted string.
        - UI folder holds UI tests that ensure the UI components are available ( an input text field, and a 'submit' button).
-        The test goes on to check that when a user clicks 'submit', the input is formatted. 
+        The test goes on to check that when a user clicks 'submit', the input is formatted. Another UI test verifies that
+        a flash error message is displayed to the user if no input amount is entered.
    3. The Rakefile defines three tasks, one to run each type of test. ( unit, integration and ui tests)
    4. The Gemfile lists the dependencies used by the Heracles app. 
    5. The config file imports the application and makes it available for use.
     
  
 **How to install**
- - Pre - requisites 
- -      Install Ruby 2.6.3
+ - Pre - requisites: Install Ruby 2.6.3
  - Run `bundle install`
  - Run `shotgun` to start the application server
  
@@ -101,24 +100,24 @@ Finished in 0.009443s, 423.5942 runs/s, 32193.1583 assertions/s.
 
  ```
  
- - Three integration tests are included, and these include an integration test that interaction between the helper and controller, 
-  basically, we test the flow where we post to the controller, which then invokes our helper and the helper formats the money. 
+ - Three integration tests are included, and these include an integration to test the interaction between the helper and controller. 
+  Basically, we test the flow where we post to the controller, which then invokes our helper and the helper formats the money. 
   The remaining integration tests check the flow that the controller does not accept empty money input from a user or string input, 
   if any such invalid input is fed, a flash error message is displayed to the user.
- -`Rubocop` is installed to run linting checks on Heracles. It has also been configured to run the checks on the CI pipeline
- - UI test using Selenium Webdriver and RSpec. There is one UI test that verifies that the amount inputted is formatted and
- the formatted amount is correct. To run the test, type `rspec tests/ui/form_test.rb` 
+ - `Rubocop` is installed to run linting checks on Heracles. It has also been configured to run the checks on the CI pipeline
+ - UI test using Selenium Webdriver and RSpec. The UI test verifies that the amount inputted is formatted and
+ the formatted amount is correct. To run the test, type `bundle exec rspec tests/ui/*.rb` 
 
 **CI pipeline setup**
-- The CircleCI pipeline configuration can be found at `/heracles/.circleci/config.yml`. 
-- The different types of tests are configured in isolated tasks on CircleCI ensuring they run in parallel. The benefits of
+ - The CircleCI pipeline configuration can be found at `/heracles/.circleci/config.yml`. 
+ - The different types of tests are configured in isolated tasks on CircleCI ensuring they run in parallel. The benefits of
   this is enhanced test execution performance. 
 
 
 **Running the tests**
  - Run unit tests by running the command `rake unit` 
  - Run integration tests by running the command `rake intgration` 
- - Run UI tests by running the command `rspec tests/ui/form_test.rb`
+ - Run UI tests by running the command `bundle exec rspec tests/ui/*.rb`
  - Run linting tests with the command `rubocop`
 
 **Further improvements**
@@ -135,12 +134,17 @@ Finished in 0.009443s, 423.5942 runs/s, 32193.1583 assertions/s.
     - Contract tests can also be added. A Swagger file documenting `/api/v1/formatAmount` has been added and can be found in 
     `/heracles/definitions/format_amount_1.0.yml`. If Heracles was to be extended in future, contract tests would protect against
     regression. 
+ - For further testing in production, monitoring and observability can be integrated into Heracles and tools such as Sentry and Honybadger
+    used to log exceptions that occur. Logs from the app can also aid in troubleshooting and monitoring with tools such as Sumologic and Datadog. 
+    We can also take advantage of a continuous deployment pipeline to enable canary testing and get feedback from a subset of users in production,
+    before a full roll out.   
  - Extending the API; 
     - `/api/v1/formatAmount` is versioned for backward compatibility. Future enhancements of the API should be done in a
     new version. For example, a new version can take in `precision` and `delimiter` as options in formatting money. The ability 
     to define `precision` and `delimiter` options is already catered for in the helper, with default values. 
     - The code structure and design, has considered and implemented component isolation in such a way that any future refactors/
     enhancements on one component do not affect the rest. For example, by separating out the `format_money` functionality into a
-    helper, and leaving the controller to handle the interaction between Heracle and the user, implies that future changes to the
+    helper, and leave the controller to handle the interaction between Heracles and the user, this implies that future changes to the
     controller do not affect the `format_money` functionality.
+
      
