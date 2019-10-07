@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
+ruby "2.6.3"
 gem 'minitest'             # Test framework
 gem 'pry'                  # enable me to test/run on the command line
 gem 'rack-flash3'          # displays flash messages on the UI
