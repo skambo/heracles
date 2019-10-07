@@ -4,10 +4,20 @@ require 'chromedriver-helper'
 
 
 describe 'testing the form end to end' do
+  # it 'submits an amount' do
+  #   driver = Selenium::WebDriver.for :chrome
+  #   driver.navigate.to 'http://127.0.0.1:9393'
+  #
+  #   driver.find_element(id: 'money').send_keys(2000)
+  #   driver.find_element(id: 'submit').click
+  #   expect(driver.find_element(id: 'format').text).to eql("Formatted Amount: 2 000.00")
+  #   driver.quit
+  # end
   it 'submits an amount' do
-    driver = Selenium::WebDriver.for :chrome
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless')
+    driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'http://127.0.0.1:9393'
-
     driver.find_element(id: 'money').send_keys(2000)
     driver.find_element(id: 'submit').click
     expect(driver.find_element(id: 'format').text).to eql("Formatted Amount: 2 000.00")
@@ -15,13 +25,14 @@ describe 'testing the form end to end' do
   end
 end
 
-describe 'test the form with no amount input' do
-  it 'no input amount given' do
-    driver = Selenium::WebDriver.for :chrome
-    driver.navigate.to 'http://127.0.0.1:9393'
+# describe 'test the form with no amount input' do
+#   it 'no input amount given' do
+#     driver = Selenium::WebDriver.for :chrome
+#     driver.navigate.to 'http://127.0.0.1:9393'
+#
+#     driver.find_element(id: 'submit').click
+#     expect(driver.find_element(id: 'error_banner').text).to eql("Please enter valid input")
+#     driver.quit
+#   end
+# end
 
-    driver.find_element(id: 'submit').click
-    expect(driver.find_element(id: 'error_banner').text).to eql("Please enter valid input")
-    driver.quit
-  end
-end
