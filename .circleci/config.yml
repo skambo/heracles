@@ -126,7 +126,7 @@ jobs:
 
       - run:
           name: Start application server
-          command: shotgun
+          command: bundle exec shotgun
           background: true
 
       # run UI tests!
