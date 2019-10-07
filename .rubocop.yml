@@ -1,7 +1,9 @@
 AllCops:
   Exclude:
     - 'tests/*.rb'
+    - 'vendor/bundle/**/*'
   Enabled: true
+
 
 
 Metrics/LineLength:
